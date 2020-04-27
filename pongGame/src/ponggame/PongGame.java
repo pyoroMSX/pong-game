@@ -21,13 +21,17 @@ public class PongGame extends JFrame {
     Dimension resolution = new Dimension(width, height);
     Image dbImage;
     Graphics dbGraphics;
+    static Paddle p_1up = new Paddle(20, 250, 1);
+    static Paddle p_2up = new Paddle(760, 250, 2);
+    static Ball playball = new Ball(400, 300);
+    
     
     public PongGame(){
         this.setTitle("Pong game");
         this.setSize(resolution);
         this.setResizable(false);
         this.setVisible(true);
-        this.getContentPane().setBackground(Color.CYAN);
+        this.getContentPane().setBackground(Color.BLACK);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         
@@ -39,9 +43,37 @@ public class PongGame extends JFrame {
     public static void main(String[] args) {
         
         PongGame game = new PongGame();
+        
+        Thread ball = new Thread(playball);
+		ball.start();
+		Thread p1 = new Thread(p_1up);
+		Thread p2 = new Thread(p_2up);
+		p1.start();
+		p2.start();
+        
+        
         // TODO code application logic here
     }
     
+    @Override
+	public void paint(Graphics g) {
+		dbImage = createImage(getWidth(), getHeight());
+		dbGraphics = dbImage.getGraphics();
+		draw(dbGraphics);
+		g.drawImage(dbImage, 0, 0, this);
+	}
+	
+	public void draw(Graphics g) {
+		playball.draw(g);
+		p_1up.draw(g);
+		p_2up.draw(g);
+		
+		g.setColor(Color.WHITE);
+		//g.drawString(""+b.p1score, 15, 20);
+		//g.drawString(""+b.p2score, 385, 20);
+		
+		repaint();
+	}
     
     
 }
