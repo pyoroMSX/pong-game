@@ -28,7 +28,7 @@ public class Paddle implements Runnable {
         this.xPos = xPos;
         this.yPos = yPos;
         this.playerNum = playerNum;
-        paddle = new Rectangle(xPos, yPos, 20, 100);
+        paddle = new Rectangle(xPos, yPos, 15, 100);
     }
     public void draw(Graphics g) {
 			g.setColor(Color.WHITE);
