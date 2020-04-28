@@ -14,7 +14,7 @@ import javax.swing.*;
  *
  * @author Rafael Perez
  */
-public class PongGame extends JFrame {
+public class PongGame extends JFrame { //initialize paddles and the ball
     
     int width = 800;
     int height = 600;
@@ -26,12 +26,13 @@ public class PongGame extends JFrame {
     static Ball playball = new Ball(400, 300);
     
     
-    public PongGame(){
+    public PongGame(){ //sets up the window
+        this.getContentPane().setBackground(Color.BLACK);
         this.setTitle("Pong game");
         this.setSize(resolution);
         this.setResizable(false);
         this.setVisible(true);
-        this.getContentPane().setBackground(Color.BLACK);
+        this.setBackground(Color.BLACK);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         
@@ -44,15 +45,15 @@ public class PongGame extends JFrame {
         
         PongGame game = new PongGame();
         
-        Thread ball = new Thread(playball);
-		ball.start();
-		Thread p1 = new Thread(p_1up);
-		Thread p2 = new Thread(p_2up);
-		p1.start();
-		p2.start();
+        Thread ball = new Thread(playball); //runs the ball, and the players
+	Thread p1 = new Thread(p_1up);
+	Thread p2 = new Thread(p_2up);
+        ball.start();
+	p1.start();
+	p2.start();
         
         
-        // TODO code application logic here
+        
     }
     
     @Override
@@ -69,8 +70,6 @@ public class PongGame extends JFrame {
 		p_2up.draw(g);
 		
 		g.setColor(Color.WHITE);
-		//g.drawString(""+b.p1score, 15, 20);
-		//g.drawString(""+b.p2score, 385, 20);
 		
 		repaint();
 	}
