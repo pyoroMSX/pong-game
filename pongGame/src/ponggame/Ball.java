@@ -59,6 +59,22 @@ public class Ball implements Runnable {
         ball.x += xMove;
         ball.y += yMove;
         
+        if (ball.x <= -20){
+        System.out.println("Player 2 has scored");
+                    whoScored = 2;
+                    respawn(whoScored);
+        }
+        if (ball.x >= 800){
+        System.out.println("Player 1 has scored");
+                    whoScored = 1;
+                    respawn(whoScored);
+        }
+        if ((ball.y <= 20) || (ball.y >= 580))
+        yMove = yMove * -1;
+        
+        //if(ball.y >= 580)
+        //yMove = yMove * -1;
+        /*
         switch(ball.x){ //when the ball goes out of bounds, a player scores, and the ball is reset
             case -20:
                     System.out.println("Player 2 has scored");
@@ -86,7 +102,7 @@ public class Ball implements Runnable {
             default:
                     break;
         }
-        
+        */
     }
     
     public void respawn(int serve){
