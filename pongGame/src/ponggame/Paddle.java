@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package ponggame;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,17 +24,14 @@ public class Paddle implements Runnable {
         this.xPos = xPos;
         this.yPos = yPos;
         this.playerNum = playerNum;
-       // paddle = new Rectangle(xPos, yPos, 15, 100);
        paddle = new Rectangle(xPos, yPos, 15, 100);
-       
-       //yMove = 1;
     }
     public void draw(Graphics g) {
 			g.setColor(Color.WHITE);
 			g.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
     }
     
-    public void move(){
+    public void move(){ //limit the paddles to the visible screen
         paddle.y += yMove;
         if (paddle.y <= 20)
             paddle.y = 20;
