@@ -25,6 +25,8 @@ public class Ball implements Runnable {
     int xMove;
     int yMove;
     int whoScored;
+    int p1Score;
+    int p2Score;
     
     static Paddle p_1up = new Paddle(20, 250, 1);
     static Paddle p_2up = new Paddle(760, 250, 2);
@@ -37,8 +39,8 @@ public class Ball implements Runnable {
         
         ball = new Rectangle(this.xPos, this.yPos, 15, 15);
         
-       xMove = 1;
-       yMove = 1;
+       xMove = 2;
+       yMove = 2;
         
         //p_1up.yMove = 1;
     }
@@ -51,7 +53,36 @@ public class Ball implements Runnable {
             
     }
     
+    public void givePoint(int id){
+        switch(id){
+            case 1:
+                    System.out.println("Player 1 has scored");
+                    if (p1Score != 9)
+                        p1Score++;
+                    else p1Score = 0;
+                    System.out.printf("\nPlayer 1 has %d points\n", p1Score);
+                    break;
+            case 2:
+                    System.out.println("Player 2 has scored");
+                    if (p2Score != 9)
+                        p2Score++;
+                    else p2Score = 0;
+                    System.out.printf("\nPlayer 2 has %d points\n", p2Score);
+                    break;
+            default: break;
+        } 
+    }
   
+    public int getPoint(int id){
+        switch(id){
+            case 1:
+                    return p1Score;
+            case 2:
+                    return p2Score;
+            default: 
+                    return 0;
+        }
+    }
     
     
     public void move(){
@@ -60,13 +91,15 @@ public class Ball implements Runnable {
         ball.y += yMove;
         
         if (ball.x <= -20){
-        System.out.println("Player 2 has scored");
+        //System.out.println("Player 2 has scored");
                     whoScored = 2;
+                    givePoint(whoScored);
                     respawn(whoScored);
         }
         if (ball.x >= 800){
-        System.out.println("Player 1 has scored");
+       // System.out.println("Player 1 has scored");
                     whoScored = 1;
+                    givePoint(whoScored);
                     respawn(whoScored);
         }
         if ((ball.y <= 20) || (ball.y >= 580))
@@ -120,12 +153,12 @@ public class Ball implements Runnable {
         
         yMove = randNum.nextInt(1);
         if (yMove == 0)
-            yMove = -1;
+            yMove = -2;
         
-        if (serve == 1)
-            xMove = -1;
+        if (serve == 2)
+            xMove = -2;
         else
-            xMove = 1;
+            xMove = 2;
         
         this.whoScored = 0;
         

@@ -24,6 +24,8 @@ public class PongGame extends JFrame { //initialize paddles and the ball
     Dimension resolution = new Dimension(width, height);
     Image dbImage;
     Graphics dbGraphics;
+    
+ 
   
     static Ball playball = new Ball(400, 300);
     
@@ -68,18 +70,100 @@ public class PongGame extends JFrame { //initialize paddles and the ball
 		dbGraphics = dbImage.getGraphics();
 		draw(dbGraphics);
 		g.drawImage(dbImage, 0, 0, this);
+                
+                
 	}
 	
 	public void draw(Graphics g) {
 		playball.draw(g);
 		playball.p_1up.draw(g);
 		playball.p_2up.draw(g);
-		
 		g.setColor(Color.WHITE);
-		
+                Image p1Count = Toolkit.getDefaultToolkit().getImage("gpx/zero.png");
+                Image p2Count = Toolkit.getDefaultToolkit().getImage("gpx/zero.png");
+                
+                Image net = Toolkit.getDefaultToolkit().getImage("gpx/net.png");
+                g.drawImage(net, 400, 0, this);
+                
+                int p1Score = playball.getPoint(1); //check player point values
+                int p2Score = playball.getPoint(2);
+                
+                switch(p1Score){ //updating the scoreboard when a player scores
+                    case 0:
+                           p1Count = Toolkit.getDefaultToolkit().getImage("gpx/zero.png");
+                           break;
+                    case 1:
+                           p1Count = Toolkit.getDefaultToolkit().getImage("gpx/one.png");
+                           System.out.println("changing!");
+                           break;
+                    case 2:
+                           p1Count = Toolkit.getDefaultToolkit().getImage("gpx/two.png");
+                           break;
+                    case 3:
+                           p1Count = Toolkit.getDefaultToolkit().getImage("gpx/three.png");
+                           break;
+                    case 4:
+                           p1Count = Toolkit.getDefaultToolkit().getImage("gpx/four.png");
+                           break;
+                    case 5:
+                           p1Count = Toolkit.getDefaultToolkit().getImage("gpx/five.png");
+                           break;
+                    case 6:
+                           p1Count = Toolkit.getDefaultToolkit().getImage("gpx/six.png");
+                           break;
+                    case 7:
+                           p1Count = Toolkit.getDefaultToolkit().getImage("gpx/seven.png");
+                           break;
+                    case 8:
+                           p1Count = Toolkit.getDefaultToolkit().getImage("gpx/eight.png");
+                           break;
+                    case 9:
+                           p1Count = Toolkit.getDefaultToolkit().getImage("gpx/nine.png");
+                           break;
+                    default: 
+                           p1Count = Toolkit.getDefaultToolkit().getImage("gpx/zero.png");
+                           break;
+                }
+                switch(p2Score){
+                    case 0:
+                           p2Count = Toolkit.getDefaultToolkit().getImage("gpx/zero.png");
+                           break;
+                    case 1:
+                           p2Count = Toolkit.getDefaultToolkit().getImage("gpx/one.png");
+                           System.out.println("changing!");
+                           break;
+                    case 2:
+                           p2Count = Toolkit.getDefaultToolkit().getImage("gpx/two.png");
+                           break;
+                    case 3:
+                           p2Count = Toolkit.getDefaultToolkit().getImage("gpx/three.png");
+                           break;
+                    case 4:
+                           p2Count = Toolkit.getDefaultToolkit().getImage("gpx/four.png");
+                           break;
+                    case 5:
+                           p2Count = Toolkit.getDefaultToolkit().getImage("gpx/five.png");
+                           break;
+                    case 6:
+                           p2Count = Toolkit.getDefaultToolkit().getImage("gpx/six.png");
+                           break;
+                    case 7:
+                           p2Count = Toolkit.getDefaultToolkit().getImage("gpx/seven.png");
+                           break;
+                    case 8:
+                           p2Count = Toolkit.getDefaultToolkit().getImage("gpx/eight.png");
+                           break;
+                    case 9:
+                           p2Count = Toolkit.getDefaultToolkit().getImage("gpx/nine.png");
+                           break;
+                    default: 
+                           p2Count = Toolkit.getDefaultToolkit().getImage("gpx/zero.png");
+                           break;  
+                }
+		g.drawImage(p1Count, 200, 50, this);
+                g.drawImage(p2Count, 550, 50, this);
 		repaint();
 	}
-        
         
     
 }
@@ -89,19 +173,19 @@ class Input extends KeyAdapter{
                 
                 if(event.getKeyCode() == KeyEvent.VK_W) {
                     System.out.println("keypress!!!");
-                    playball.p_1up.yMove = -4;
+                    playball.p_1up.yMove = -5;
                 }
                 if(event.getKeyCode() == KeyEvent.VK_S) {
                     System.out.println("keypress!!!");
-                    playball.p_1up.yMove = 4;
+                    playball.p_1up.yMove = 5;
                 }
                  if(event.getKeyCode() == KeyEvent.VK_I) {
                     System.out.println("keypress!!!");
-                    playball.p_2up.yMove = -4;
+                    playball.p_2up.yMove = -5;
                 }
                 if(event.getKeyCode() == KeyEvent.VK_K) {
                     System.out.println("keypress!!!");
-                    playball.p_2up.yMove = 4;
+                    playball.p_2up.yMove = 5;
                 }   
 		
                 
