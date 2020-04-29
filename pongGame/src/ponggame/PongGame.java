@@ -1,23 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package ponggame;
 import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.concurrent.TimeUnit;
-import javax.swing.*;
 import javax.swing.JTextField;
 import static ponggame.PongGame.playball;
 
 /**
  *
  * @author Rafael Perez
+ * 
  */
-public class PongGame extends JFrame { //initialize paddles and the ball
+public class PongGame extends JFrame { //initialize the window, and the ball
     
     int width = 800;
     int height = 600;
@@ -49,7 +44,7 @@ public class PongGame extends JFrame { //initialize paddles and the ball
      */
     public static void main(String[] args) {
         
-        PongGame game = new PongGame();
+        PongGame game = new PongGame(); //begins the game
         
         Thread ball = new Thread(playball); //runs the ball, and the players
 	Thread p1 = new Thread(playball.p_1up);
@@ -57,21 +52,15 @@ public class PongGame extends JFrame { //initialize paddles and the ball
         ball.start();
 	p1.start();
 	p2.start();
- 
-        
-        
-        
         
     }
     
     @Override
-	public void paint(Graphics g) {
+	public void paint(Graphics g) { //draw graphics
 		dbImage = createImage(getWidth(), getHeight());
 		dbGraphics = dbImage.getGraphics();
 		draw(dbGraphics);
 		g.drawImage(dbImage, 0, 0, this);
-                
-                
 	}
 	
 	public void draw(Graphics g) {
@@ -79,7 +68,7 @@ public class PongGame extends JFrame { //initialize paddles and the ball
 		playball.p_1up.draw(g);
 		playball.p_2up.draw(g);
 		g.setColor(Color.WHITE);
-                Image p1Count = Toolkit.getDefaultToolkit().getImage("gpx/zero.png");
+                Image p1Count = Toolkit.getDefaultToolkit().getImage("gpx/zero.png"); //load scoreboard numbers
                 Image p2Count = Toolkit.getDefaultToolkit().getImage("gpx/zero.png");
                 
                 Image net = Toolkit.getDefaultToolkit().getImage("gpx/net.png");
@@ -94,7 +83,6 @@ public class PongGame extends JFrame { //initialize paddles and the ball
                            break;
                     case 1:
                            p1Count = Toolkit.getDefaultToolkit().getImage("gpx/one.png");
-                           System.out.println("changing!");
                            break;
                     case 2:
                            p1Count = Toolkit.getDefaultToolkit().getImage("gpx/two.png");
@@ -124,13 +112,12 @@ public class PongGame extends JFrame { //initialize paddles and the ball
                            p1Count = Toolkit.getDefaultToolkit().getImage("gpx/zero.png");
                            break;
                 }
-                switch(p2Score){
+                switch(p2Score){ //likewise for player 2
                     case 0:
                            p2Count = Toolkit.getDefaultToolkit().getImage("gpx/zero.png");
                            break;
                     case 1:
                            p2Count = Toolkit.getDefaultToolkit().getImage("gpx/one.png");
-                           System.out.println("changing!");
                            break;
                     case 2:
                            p2Count = Toolkit.getDefaultToolkit().getImage("gpx/two.png");
@@ -167,46 +154,30 @@ public class PongGame extends JFrame { //initialize paddles and the ball
         
     
 }
-class Input extends KeyAdapter{
+class Input extends KeyAdapter{ //input control
             @Override
             public void keyPressed(KeyEvent event){
                 
-                if(event.getKeyCode() == KeyEvent.VK_W) {
-                    System.out.println("keypress!!!");
+                if(event.getKeyCode() == KeyEvent.VK_W)
                     playball.p_1up.yMove = -5;
-                }
-                if(event.getKeyCode() == KeyEvent.VK_S) {
-                    System.out.println("keypress!!!");
+                if(event.getKeyCode() == KeyEvent.VK_S)
                     playball.p_1up.yMove = 5;
-                }
-                 if(event.getKeyCode() == KeyEvent.VK_I) {
-                    System.out.println("keypress!!!");
+                 if(event.getKeyCode() == KeyEvent.VK_I)
                     playball.p_2up.yMove = -5;
-                }
-                if(event.getKeyCode() == KeyEvent.VK_K) {
-                    System.out.println("keypress!!!");
+                if(event.getKeyCode() == KeyEvent.VK_K)
                     playball.p_2up.yMove = 5;
-                }   
-		
-                
             }
+
             @Override
             public void keyReleased(KeyEvent event){
-                if(event.getKeyCode() == event.VK_W) {
+                if(event.getKeyCode() == event.VK_W) 
+			playball.p_1up.yMove = 0; 
+                if(event.getKeyCode() == event.VK_S) 
 			playball.p_1up.yMove = 0;
-                        System.out.println("keyrelease!!");
-		}  
-                if(event.getKeyCode() == event.VK_S) {
-			playball.p_1up.yMove = 0;
-                        System.out.println("keyrelease!!");
-		}  
-                if(event.getKeyCode() == event.VK_I) {
+                if(event.getKeyCode() == event.VK_I) 
 			playball.p_2up.yMove = 0;
-                        System.out.println("keyrelease!!");
-		}  
-                if(event.getKeyCode() == event.VK_K) {
+                if(event.getKeyCode() == event.VK_K) 
 			playball.p_2up.yMove = 0;
-                        System.out.println("keyrelease!!");
-		}  
+		} 
             }
-        }
+        
