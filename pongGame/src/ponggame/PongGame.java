@@ -8,7 +8,10 @@ import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.concurrent.TimeUnit;
 import javax.swing.*;
+import javax.swing.JTextField;
+import static ponggame.PongGame.playball;
 
 /**
  *
@@ -21,8 +24,7 @@ public class PongGame extends JFrame { //initialize paddles and the ball
     Dimension resolution = new Dimension(width, height);
     Image dbImage;
     Graphics dbGraphics;
-    static Paddle p_1up = new Paddle(20, 250, 1);
-    static Paddle p_2up = new Paddle(760, 250, 2);
+  
     static Ball playball = new Ball(400, 300);
     
     
@@ -34,8 +36,10 @@ public class PongGame extends JFrame { //initialize paddles and the ball
         this.setVisible(true);
         this.setBackground(Color.BLACK);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        
+        JTextField textField = new JTextField();
+        textField.addKeyListener(new Input());
+        this.add(textField);
+        this.setVisible(true);
     }
 
     /**
@@ -46,11 +50,13 @@ public class PongGame extends JFrame { //initialize paddles and the ball
         PongGame game = new PongGame();
         
         Thread ball = new Thread(playball); //runs the ball, and the players
-	Thread p1 = new Thread(p_1up);
-	Thread p2 = new Thread(p_2up);
+	Thread p1 = new Thread(playball.p_1up);
+	Thread p2 = new Thread(playball.p_2up);
         ball.start();
 	p1.start();
 	p2.start();
+ 
+        
         
         
         
@@ -66,13 +72,57 @@ public class PongGame extends JFrame { //initialize paddles and the ball
 	
 	public void draw(Graphics g) {
 		playball.draw(g);
-		p_1up.draw(g);
-		p_2up.draw(g);
+		playball.p_1up.draw(g);
+		playball.p_2up.draw(g);
 		
 		g.setColor(Color.WHITE);
 		
 		repaint();
 	}
-    
+        
+        
     
 }
+class Input extends KeyAdapter{
+            @Override
+            public void keyPressed(KeyEvent event){
+                
+                if(event.getKeyCode() == KeyEvent.VK_W) {
+                    System.out.println("keypress!!!");
+                    playball.p_1up.yMove = -4;
+                }
+                if(event.getKeyCode() == KeyEvent.VK_S) {
+                    System.out.println("keypress!!!");
+                    playball.p_1up.yMove = 4;
+                }
+                 if(event.getKeyCode() == KeyEvent.VK_I) {
+                    System.out.println("keypress!!!");
+                    playball.p_2up.yMove = -4;
+                }
+                if(event.getKeyCode() == KeyEvent.VK_K) {
+                    System.out.println("keypress!!!");
+                    playball.p_2up.yMove = 4;
+                }   
+		
+                
+            }
+            @Override
+            public void keyReleased(KeyEvent event){
+                if(event.getKeyCode() == event.VK_W) {
+			playball.p_1up.yMove = 0;
+                        System.out.println("keyrelease!!");
+		}  
+                if(event.getKeyCode() == event.VK_S) {
+			playball.p_1up.yMove = 0;
+                        System.out.println("keyrelease!!");
+		}  
+                if(event.getKeyCode() == event.VK_I) {
+			playball.p_2up.yMove = 0;
+                        System.out.println("keyrelease!!");
+		}  
+                if(event.getKeyCode() == event.VK_K) {
+			playball.p_2up.yMove = 0;
+                        System.out.println("keyrelease!!");
+		}  
+            }
+        }
