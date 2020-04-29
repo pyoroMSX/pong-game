@@ -8,6 +8,7 @@ package ponggame;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -25,6 +26,9 @@ public class Ball implements Runnable {
     int yMove;
     int whoScored;
     
+    static Paddle p_1up = new Paddle(20, 250, 1);
+    static Paddle p_2up = new Paddle(760, 250, 2);
+    
     Rectangle ball;
     
     public Ball(int xPos,int yPos){
@@ -33,14 +37,25 @@ public class Ball implements Runnable {
         
         ball = new Rectangle(this.xPos, this.yPos, 15, 15);
         
-        xMove = 1;
-        yMove = 1;
+       xMove = 1;
+       yMove = 1;
+        
+        //p_1up.yMove = 1;
     }
     
+    public void collisionCheck(){
+        if(ball.intersects(p_1up.paddle))
+            xMove = (xMove - 1) * -1;
+        else if (ball.intersects(p_2up.paddle))
+            xMove = (xMove + 1) * -1;
+            
+    }
     
+  
     
     
     public void move(){
+        collisionCheck();
         ball.x += xMove;
         ball.y += yMove;
         
@@ -110,6 +125,7 @@ public class Ball implements Runnable {
     public void run() {
         for(;;){
             move();
+            
             try {
                 Thread.sleep(10);
             } catch (InterruptedException ex) {
