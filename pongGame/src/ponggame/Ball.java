@@ -15,38 +15,74 @@ import java.util.logging.Logger;
  */
 public class Ball implements Runnable {
     
-    int xPos; 
-    int yPos;
-    int xMove;
-    int yMove;
-    int whoScored;
-    int p1Score;
-    int p2Score;
+    private double xMove;
+    private double yMove;
+    private double baseSpeed;
+    private int whoScored;
+    private int p1Score;
+    private int p2Score;
+    
     
     static Paddle p_1up = new Paddle(20, 250, 1);
-    static Paddle p_2up = new Paddle(760, 250, 2);
+    static Paddle p_2up = new Paddle(765, 250, 2);
     
     Rectangle ball;
     
     public Ball(int xPos,int yPos){
-        this.xPos = xPos;
-        this.yPos = yPos;
         
-        ball = new Rectangle(this.xPos, this.yPos, 15, 15);
-        
-       xMove = 2; //the ball's initial movespeed
-       yMove = 2;
+        ball = new Rectangle(xPos, yPos, 15, 15);
+
+       baseSpeed = 2.5;
+       setXmovement(baseSpeed); //initial movespeed
+       setYmovement(baseSpeed);
+       
     }
     
-    public void collisionCheck(){ 
-        if(ball.intersects(p_1up.paddle))
-            xMove = (xMove - 1) * -1;
-        else if (ball.intersects(p_2up.paddle))
-            xMove = (xMove + 1) * -1;
-            
+    private void setXmovement(double x){
+        xMove = x;
+    }
+    private void setYmovement(double y){
+        yMove = y;
+    }
+    private double getXmovement(){
+      return xMove;
+    }
+    private double getYmovement(){
+        return yMove;
+    }
+    private void setXposition(int x){
+        ball.x = x;
+    }
+    private void setYposition(int y){
+        ball.y = y;
+    }
+    private int getXposition(){
+        return ball.x;
+    }
+    private int getYposition(){
+        return ball.y;
+    }
+    private void setBaseSpeed(double speed){
+        baseSpeed = speed;
+    }
+    private double getBaseSpeed(){
+        return baseSpeed;
     }
     
-    public void givePoint(int id){
+    private void collisionCheck(){ 
+        if(ball.intersects(p_1up.paddle)){
+            baseSpeed++;
+            setXmovement((baseSpeed));
+            //System.out.printf("basespeed is %f\n", baseSpeed);
+        }
+        else if (ball.intersects(p_2up.paddle)){
+            baseSpeed++;
+            setXmovement((baseSpeed * -1));
+            //System.out.printf("basespeed is %f\n", baseSpeed);
+        }
+    }
+    
+    private void givePoint(int id){
         switch(id){
             case 1:
                     System.out.println("Player 1 has scored");
@@ -66,7 +102,7 @@ public class Ball implements Runnable {
         } 
     }
   
-    public int getPoint(int id){
+    protected int getPoint(int id){
         switch(id){
             case 1:
                     return p1Score;
@@ -76,10 +112,10 @@ public class Ball implements Runnable {
                     return 0;
         }
     }
-    public void move(){
+    private void move(){
         collisionCheck();
-        ball.x += xMove;
-        ball.y += yMove;
+        ball.x += getXmovement();
+        ball.y += getYmovement();
         
         if (ball.x <= -20){
                     whoScored = 2;
@@ -91,12 +127,19 @@ public class Ball implements Runnable {
                     givePoint(whoScored);
                     respawn(whoScored);
         }
-        if ((ball.y <= 20) || (ball.y >= 580))
-        yMove = yMove * -1;
+         if (ball.y <= 20){
+             setYposition(20);
+             setYmovement(getYmovement() * -1);
+         }
+         if (ball.y >= 580){
+             setYposition(580);
+             setYmovement(getYmovement() * -1);
+         }
     }
     
-    public void respawn(int serve){
-        
+    private void respawn(int serve){
+        int upDown;
+        setBaseSpeed(2.5);
         Random randNum = new Random();
         
         try {
@@ -105,22 +148,25 @@ public class Ball implements Runnable {
             Logger.getLogger(Ball.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        ball.y = (randNum.nextInt(559) + 20); //the ball is served from a random place on the y axis
-        ball.x = 400;
+        setYposition(randNum.nextInt(559) + 20);
+        setXposition(400);
         
-        yMove = randNum.nextInt(1); //it is served to the player who got scored on
-        if (yMove == 0)
-            yMove = -2;
+        
+        upDown = randNum.nextInt(2); //it is served to the player who got scored on
+        if (upDown == 0)
+            setYmovement(baseSpeed * -1);
+        else    
+            setYmovement(baseSpeed);
         
         if (serve == 2)
-            xMove = -2;
+            setXmovement(baseSpeed * -1);
         else
-            xMove = 2;
+            setXmovement(baseSpeed);
         
         this.whoScored = 0;
         
     }
-   public void draw(Graphics g) {
+   protected void draw(Graphics g) {
 		g.setColor(Color.WHITE);
 		g.fillRect(ball.x, ball.y, ball.width, ball.height);
 	}
