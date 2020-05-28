@@ -13,25 +13,29 @@ import java.util.logging.Logger;
  */
 public class Paddle implements Runnable {
     
-    int xPos;
-    int yPos;
-    int yMove;
+    //int xPos;
+    //int yPos;
+    double yMove;
     int playerNum;
     
     Rectangle paddle;
     
     public Paddle(int xPos,int yPos,int playerNum){
-        this.xPos = xPos;
-        this.yPos = yPos;
+        //this.xPos = xPos;
+        //this.yPos = yPos;
         this.playerNum = playerNum;
        paddle = new Rectangle(xPos, yPos, 15, 100);
     }
-    public void draw(Graphics g) {
+    protected void setYmovement(double y){
+        yMove = y;
+    }
+    
+    protected void draw(Graphics g) {
 			g.setColor(Color.WHITE);
 			g.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
     }
     
-    public void move(){ //limit the paddles to the visible screen
+    private void move(){ //limit the paddles to the visible screen
         paddle.y += yMove;
         if (paddle.y <= 20)
             paddle.y = 20;

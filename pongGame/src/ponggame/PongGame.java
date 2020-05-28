@@ -155,17 +155,18 @@ public class PongGame extends JFrame { //initialize the window, and the ball
     
 }
 class Input extends KeyAdapter{ //input control
+            double paddleSpeed = 7;
             @Override
             public void keyPressed(KeyEvent event){
                 
                 if(event.getKeyCode() == KeyEvent.VK_W)
-                    playball.p_1up.yMove = -5;
+                      playball.p_1up.setYmovement(-1 * paddleSpeed);
                 if(event.getKeyCode() == KeyEvent.VK_S)
-                    playball.p_1up.yMove = 5;
+                    playball.p_1up.setYmovement(paddleSpeed);
                  if(event.getKeyCode() == KeyEvent.VK_I)
-                    playball.p_2up.yMove = -5;
+                    playball.p_2up.setYmovement(-1 * paddleSpeed);
                 if(event.getKeyCode() == KeyEvent.VK_K)
-                    playball.p_2up.yMove = 5;
+                    playball.p_2up.setYmovement(paddleSpeed);
             }
 
             @Override
