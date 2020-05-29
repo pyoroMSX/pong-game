@@ -32,7 +32,7 @@ public class Ball implements Runnable {
         
         ball = new Rectangle(xPos, yPos, 15, 15);
 
-       baseSpeed = 2.5;
+       baseSpeed = 3;
        setXmovement(baseSpeed); //initial movespeed
        setYmovement(baseSpeed);
        
@@ -72,14 +72,64 @@ public class Ball implements Runnable {
     private void collisionCheck(){ 
         if(ball.intersects(p_1up.paddle)){
             baseSpeed++;
-            setXmovement((baseSpeed));
+            setXmovement(getBaseSpeed() * Math.cos(angleModifier(1)));
+            if (getYmovement() > 0)
+            setYmovement(getBaseSpeed() * Math.sin(angleModifier(1)));
+            else
+            setYmovement(-1 * (getBaseSpeed() * Math.sin(angleModifier(1))));
+            //setXmovement((baseSpeed));
+            System.out.printf("ball pos. relative to paddle pos. is %f\n", (100 - (getYposition() - p_1up.getYposition())));
             //System.out.printf("basespeed is %f\n", baseSpeed);
         }
         else if (ball.intersects(p_2up.paddle)){
             baseSpeed++;
-            setXmovement((baseSpeed * -1));
+            setXmovement(-1 *(getBaseSpeed() * Math.cos(angleModifier(2))));
+            if (getYmovement() > 0)
+            setYmovement(getBaseSpeed() * Math.sin(angleModifier(2)));
+            else
+            setYmovement(-1 * (getBaseSpeed() * Math.sin(angleModifier(2))));
+            //setXmovement((baseSpeed * -1));
+            System.out.printf("ball pos. relative to paddle pos. is %f\n", (100 - (getYposition() - p_2up.getYposition())));
             //System.out.printf("basespeed is %f\n", baseSpeed);
         }
+
+        
+        
+    }
+    
+    private double angleModifier(int id){
+        double relativePos = 0;
+        switch(id){
+            case 1: 
+                    relativePos = (100 - (getYposition() - p_1up.getYposition()));
+                    break;
+            case 2:
+                    relativePos = (100 - (getYposition() - p_2up.getYposition()));
+                    break;
+            default: break;
+        }
+        if(relativePos > 100){
+            return Math.toRadians(72);
+        }
+        else if(relativePos <= 99 && relativePos > 80){
+            return Math.toRadians(54);
+        }
+        else if(relativePos <= 80 && relativePos > 60){
+            return Math.toRadians(36);
+        }
+        else if(relativePos <= 60 && relativePos > 40){
+            return Math.toRadians(18);
+        }
+        else if(relativePos <= 40 && relativePos > 20){
+            return Math.toRadians(36);
+        }
+        else if(relativePos <= 20 && relativePos > 0){
+            return Math.toRadians(54);
+        }
+        else if (relativePos <= 0)
+            return Math.toRadians(72);
+        else return 0;
+        
     }
     
     private void givePoint(int id){
@@ -139,7 +189,7 @@ public class Ball implements Runnable {
     
     private void respawn(int serve){
         int upDown;
-        setBaseSpeed(2.5);
+        setBaseSpeed(3);
         Random randNum = new Random();
         
         try {

@@ -155,7 +155,7 @@ public class PongGame extends JFrame { //initialize the window, and the ball
     
 }
 class Input extends KeyAdapter{ //input control
-            double paddleSpeed = 7;
+            double paddleSpeed = 10;
             @Override
             public void keyPressed(KeyEvent event){
                 

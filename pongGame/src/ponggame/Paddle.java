@@ -29,6 +29,9 @@ public class Paddle implements Runnable {
     protected void setYmovement(double y){
         yMove = y;
     }
+    protected double getYposition(){
+        return paddle.y;
+    }
     
     protected void draw(Graphics g) {
 			g.setColor(Color.WHITE);
@@ -37,10 +40,10 @@ public class Paddle implements Runnable {
     
     private void move(){ //limit the paddles to the visible screen
         paddle.y += yMove;
-        if (paddle.y <= 20)
-            paddle.y = 20;
-        if (paddle.y >= 500)
-            paddle.y = 500;
+        if (paddle.y <= 50)
+            paddle.y = 50;
+        if (paddle.y >= 470)
+            paddle.y = 470;
     }
     
 
