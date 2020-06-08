@@ -71,24 +71,46 @@ public class Ball implements Runnable {
     
     private void collisionCheck(){ 
         if(ball.intersects(p_1up.paddle)){
+            if(baseSpeed <= 10)
             baseSpeed++;
             setXmovement(getBaseSpeed() * Math.cos(angleModifier(1)));
-            if (getYmovement() > 0)
-            setYmovement(getBaseSpeed() * Math.sin(angleModifier(1)));
-            else
-            setYmovement(-1 * (getBaseSpeed() * Math.sin(angleModifier(1))));
+            if (getYmovement() > 0){
+                if ((100 - (getYposition() - p_1up.getYposition())) >= 50){
+                setYmovement(-1 * getBaseSpeed() * Math.sin(angleModifier(1)));
+                }
+                else{
+                setYmovement((getBaseSpeed() * Math.sin(angleModifier(1))));}
+            }
+            else{
+                if ((100 - (getYposition() - p_1up.getYposition())) <= 50){
+                setYmovement( (getBaseSpeed() * Math.sin(angleModifier(1))));}
+                else{ 
+                    setYmovement(( -1 *getBaseSpeed() * Math.sin(angleModifier(1))));
+                }
+            }
             //setXmovement((baseSpeed));
             System.out.printf("ball pos. relative to paddle pos. is %f\n", (100 - (getYposition() - p_1up.getYposition())));
             //System.out.printf("basespeed is %f\n", baseSpeed);
         }
         else if (ball.intersects(p_2up.paddle)){
+            if(baseSpeed <= 10)
             baseSpeed++;
-            setXmovement(-1 *(getBaseSpeed() * Math.cos(angleModifier(2))));
-            if (getYmovement() > 0)
-            setYmovement(getBaseSpeed() * Math.sin(angleModifier(2)));
-            else
-            setYmovement(-1 * (getBaseSpeed() * Math.sin(angleModifier(2))));
-            //setXmovement((baseSpeed * -1));
+            setXmovement( -1 * getBaseSpeed() * Math.cos(angleModifier(1)));
+            if (getYmovement() > 0){
+                if ((100 - (getYposition() - p_2up.getYposition())) >= 50){
+                setYmovement(-1 * getBaseSpeed() * Math.sin(angleModifier(1)));
+                }
+                else{
+                setYmovement((getBaseSpeed() * Math.sin(angleModifier(1))));}
+            }
+            else{
+                if ((100 - (getYposition() - p_2up.getYposition())) <= 50){
+                setYmovement((getBaseSpeed() * Math.sin(angleModifier(1))));}
+                else{ 
+                    setYmovement((-1 * getBaseSpeed() * Math.sin(angleModifier(1))));
+                }
+            }
+            //setXmovement((baseSpeed));
             System.out.printf("ball pos. relative to paddle pos. is %f\n", (100 - (getYposition() - p_2up.getYposition())));
             //System.out.printf("basespeed is %f\n", baseSpeed);
         }
@@ -111,13 +133,19 @@ public class Ball implements Runnable {
         if(relativePos > 100){
             return Math.toRadians(72);
         }
-        else if(relativePos <= 99 && relativePos > 80){
+        else if(relativePos <= 100 && relativePos > 80){
             return Math.toRadians(54);
         }
         else if(relativePos <= 80 && relativePos > 60){
             return Math.toRadians(36);
         }
-        else if(relativePos <= 60 && relativePos > 40){
+        else if(relativePos <= 60 && relativePos > 51){
+            return Math.toRadians(18);
+        }
+        else if(relativePos <= 51 && relativePos > 49){
+            return 0;
+        }
+        else if(relativePos <= 49 && relativePos > 40){
             return Math.toRadians(18);
         }
         else if(relativePos <= 40 && relativePos > 20){
